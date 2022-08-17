@@ -17,4 +17,8 @@ def resizeWithAspectRatio(image, width=None, height=None, inter=cv2.INTER_AREA):
 def midpoint(ptA, ptB):
 	return ((ptA[0] + ptB[0]) * 0.5, (ptA[1] + ptB[1]) * 0.5)
 
+def getCalculatedSize(calculatedPixelLength, knownObjectPixelLength, knownObjectActualLength):
+
+    return calculatedPixelLength*knownObjectActualLength/knownObjectPixelLength
+
 

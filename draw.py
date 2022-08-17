@@ -33,7 +33,12 @@ def line_drawing(event,x,y,flags,param):
         for i in range(1, len(points)):
             adj_distance = dist.euclidean(points[i-1], points[i] )
             total_dist += adj_distance
-        print("Total distance is " + str(total_dist*coinActualSize/dA) + " mm")
+
+        calc_length = utils.getCalculatedSize(total_dist, coinD1, coinActualSize)
+        print("Total distance is " + str(calc_length) + " mm")
+        cv2.putText(orig,  "{:.1f}mm".format(calc_length), (x + 10, y), cv2.FONT_HERSHEY_SIMPLEX,
+		0.65, (255, 255, 255), 2)
+
         points = []
               
 
@@ -84,19 +89,19 @@ for (x, y) in box:
 # cv2.line(orig, (int(tlblX), int(tlblY)), (int(trbrX), int(trbrY)), (255, 0, 255), 2)
 
 
-dA = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
-dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
+coinD1 = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
+coinD2 = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
 
 
 # dimA = dA / pixelsPerMetric
 # dimB = dB / pixelsPerMetric
 
-# cv2.putText(orig, "{:.1f}mm".format(dimA),
-# 		(int(tltrX - 15), int(tltrY - 10)), cv2.FONT_HERSHEY_SIMPLEX,
-# 		0.65, (255, 255, 255), 2)
-# cv2.putText(orig, "{:.1f}mm".format(dimB),
-# 		(int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,
-# 		0.65, (255, 255, 255), 2)
+cv2.putText(orig, "{:.1f}mm".format(utils.getCalculatedSize(coinD1, coinD1, coinActualSize)),
+		(int(tltrX - 15), int(tltrY - 10)), cv2.FONT_HERSHEY_SIMPLEX,
+		0.65, (255, 255, 255), 2)
+cv2.putText(orig, "{:.1f}mm".format(utils.getCalculatedSize(coinD1, coinD1, coinActualSize)),
+		(int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,
+		0.65, (255, 255, 255), 2)
 
 cv2.namedWindow('test draw')
 cv2.setMouseCallback('test draw',line_drawing)
